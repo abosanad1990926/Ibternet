@@ -3,27 +3,51 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>لوحة قيادة نون</title>
+  <title>شبكة نون - دخول محمي</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 40px; background: #f0f0f0; direction: rtl; }
+    body { font-family: sans-serif; background-color: #f0f0f0; text-align: center; padding-top: 100px; direction: rtl; }
+    #main, .card { display: none; }
     .card { background: white; padding: 20px; margin: auto; width: 300px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    input { padding: 8px; width: 80%; margin-top: 10px; }
+    button { margin-top: 10px; padding: 10px 20px; background-color: #2d89ef; color: white; border: none; border-radius: 5px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>👁‍🗨 زائر جديد</h2>
-    <p>⏰ الوقت: <span id="time"></span></p>
-    <p>📍 الموقع التقريبي: <span id="location">جارٍ التحميل...</span></p>
-    <p>🔠 الحرف النشط: <strong>ن</strong></p>
-  </div>
 
-  <script>
-    document.getElementById('time').innerText = new Date().toLocaleString();
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('location').innerText = data.city + ", " + data.country_name;
-      });
-  </script>
+<div class="card" id="auth-card">
+  <h2>🔐 دخول محمي</h2>
+  <p>أدخل الرمز للوصول إلى شبكة نون</p>
+  <input type="password" id="code" placeholder="رمز الدخول">
+  <br>
+  <button onclick="checkCode()">دخول</button>
+  <p id="error" style="color:red;"></p>
+</div>
+
+<div id="main" class="card">
+  <h2>👁‍🗨 زائر جديد</h2>
+  <p>⏰ الوقت: <span id="time"></span></p>
+  <p>📍 الموقع التقريبي: <span id="location">جارٍ التحميل...</span></p>
+  <p>🔠 الحرف النشط: <strong>ن</strong></p>
+</div>
+
+<script>
+  function checkCode() {
+    const code = document.getElementById("code").value.trim();
+    const validCodes = ["الله", "3", "نون", "نوري"];
+    if (validCodes.includes(code)) {
+      document.getElementById("auth-card").style.display = "none";
+      document.getElementById("main").style.display = "block";
+      document.getElementById('time').innerText = new Date().toLocaleString();
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('location').innerText = data.city + ", " + data.country_name;
+        });
+    } else {
+      document.getElementById("error").innerText = "رمز غير صحيح. جرّب مجددًا.";
+    }
+  }
+</script>
+
 </body>
 </html>
