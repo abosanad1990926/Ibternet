@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة قيادة نون</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; background: #f0f0f0; direction: rtl; }
+    .card { background: white; padding: 20px; margin: auto; width: 300px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>👁‍🗨 زائر جديد</h2>
+    <p>⏰ الوقت: <span id="time"></span></p>
+    <p>📍 الموقع التقريبي: <span id="location">جارٍ التحميل...</span></p>
+    <p>🔠 الحرف النشط: <strong>ن</strong></p>
+  </div>
+
+  <script>
+    document.getElementById('time').innerText = new Date().toLocaleString();
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('location').innerText = data.city + ", " + data.country_name;
+      });
+  </script>
+</body>
+</html>
